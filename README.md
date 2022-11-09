@@ -4,3 +4,4 @@
 - ReactJS 
 - useRouter
 - Stitches - Styles Library
+- Stripe - Payment API 
