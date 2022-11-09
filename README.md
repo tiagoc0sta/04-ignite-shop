@@ -1,5 +1,5 @@
--technology used 
-- NextJS
+- technology used 
+- NextJS - SSR / SSG
 - typescript
 - ReactJS 
 - useRouter
