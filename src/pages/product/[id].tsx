@@ -1,26 +1,35 @@
 import { GetStaticProps } from "next"
-import { useRouter } from "next/router"
-import stripe from "stripe"
-import {Stripe} from "stripe"
+import Image from "next/image";
+import Stripe from "stripe"
+import {stripe} from '../../lib/stripe';
 import { ImageContainer, ProductContainer, ProductDetails } from "../../styles/pages/product"
 
+interface ProductProps {
+  product: {
+    id: string;
+    name: string;
+    imageUrl: string;
+    price: string;  
+    description: string;  
+  }
+}
 
-export default function Product() {
-  const { query } = useRouter ()
-
+export default function Product({product}: ProductProps) {
   return(
     <ProductContainer>
       <ImageContainer>        
-
+        <Image src={product.imageUrl} width={520} height={480} alt=""/> 
       </ImageContainer>
 
       <ProductDetails>
-        <h1>Camiseta X</h1>
-        <span>R$ 79,90</span>
+        <h1>{product.name}</h1>
+        <span>{product.price}</span>
 
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime ab eaque cum dolorem ipsum beatae iure debitis aliquid laborum pariatur repellendus neque reiciendis, velit, iusto nisi illum expedita? Nesciunt, dolorum.</p>
+        <p>{product.description}</p>
 
-        <button>Comprar agora</button>
+        <button>
+          Comprar agora
+        </button>
       </ProductDetails>
     </ProductContainer>
   )
@@ -45,7 +54,8 @@ export const getStaticProps: GetStaticProps<any, {id:string}> =  async ({params}
         price: new Intl.NumberFormat('pt-BR', {
           style: 'currency',
           currency: 'BRL',
-        }).format(price.unit_amount! / 100),      
+        }).format(price.unit_amount! / 100),   
+        description: product.description,   
       }
     },
     revalidate: 60* 60 * 1 // 1 hour
